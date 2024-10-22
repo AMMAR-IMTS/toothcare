@@ -13,8 +13,7 @@ date_default_timezone_set('Asia/Colombo');
 
 function current_domain()
 {
-    return protocol() . $_SERVER['HTTP_HOST'] . '/toothcare';
-    // return protocol() . $_SERVER['HTTP_HOST'];
+    return protocol() . $_SERVER['HTTP_HOST'] . '/tooth-care-imts';
 }
 
 function currentUrl()
