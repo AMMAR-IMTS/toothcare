@@ -28,6 +28,16 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<script>
+    // Function to display a Bootstrap alert
+    function showAlert(message, alertType, id = "alert-container") {
+        var alertContainer = $('#' + id);
+        var alert = $('<div class="alert alert-' + alertType + ' alert-dismissible fade show" role="alert">' + message +
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        alertContainer.html(alert);
+    }
+</script>
 </body>
 
 </html>

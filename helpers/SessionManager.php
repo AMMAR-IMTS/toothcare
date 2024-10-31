@@ -10,7 +10,10 @@ class SessionManager
 
     public function __construct()
     {
-        session_start();
+        // Check if a session has already been started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function setAttribute($key, $value)
