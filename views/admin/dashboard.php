@@ -1,5 +1,6 @@
 <?php
 require_once('../layouts/header.php');
+if (!isset($userId) && empty($userId)) dd('Access Denied...!');
 ?>
 
 <!-- Content wrapper -->

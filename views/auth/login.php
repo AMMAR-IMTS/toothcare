@@ -19,7 +19,7 @@ require_once('../layouts/login_header.php');
                     <h4 class="mb-2">Welcome to ImTS! 👋</h4>
                     <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-                    <form id="formAuthentication" class="mb-3" action="<?= url('services/auth.php') ?>" method="POST">
+                    <form id="formAuthentication" class="mb-3" action="<?= url(url: 'services/auth.php') ?>" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email or Username</label>
                             <input

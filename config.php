@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_NAME', 'tooth_care');
+define('DB_NAME', 'tooth-care');
 
 define('BASE_PATH', __DIR__);
 define('CURRENT_DOMAIN', current_domain());

@@ -1,75 +1,49 @@
 <?php
 require_once('../layouts/header.php');
-include BASE_PATH . '/models/User.php';
+include BASE_PATH . '/models/Doctor.php';
 
-$userModel = new User();
-$table = $userModel->getTableName();
-$data = $userModel->getAll();
+$doctorModel = new Doctor();
+$data = $doctorModel->getAll();
 
 if ($permission != 'operator') dd('Access Denied...!');
+
 ?>
 
 <!-- Content -->
 
 <div class="container-xxl flex-grow-1 container-p-y">
 
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Users
-        <!-- Button trigger modal -->
-        <button
-            type="button"
-            class="btn btn-primary float-end"
-            data-bs-toggle="modal"
-            data-bs-target="#modalCenter">
-            Add New User
-        </button>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Doctors
+
     </h4>
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
-        <h5 class="card-header">Users</h5>
+        <h5 class="card-header">Doctors</h5>
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>User Name</th>
-                        <th>Email</th>
-                        <th>Permission</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>Name</th>
+                        <th>About</th>
+                        <th>Image</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     <?php
-                    foreach ($data as $key => $user) {
+                    foreach ($data as $key => $doctor) {
                     ?>
                         <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?= $user['username'] ?? '' ?></strong></td>
-                            <td><?= $user['email'] ?? '' ?></td>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?= $doctor['name'] ?? '' ?></strong></td>
+                            <td><?= $doctor['about'] ?? '' ?></td>
                             <td>
-                                <span class="text-capitalize"> <?= $user['permission'] ?? '' ?></span>
+                                <?php if (isset($doctor['photo']) || !empty($doctor['photo'])) : ?>
+                                    <img src="<?= asset('assets/uploads/' . $doctor['photo']) ?>" alt="user-avatar" class="d-block rounded m-3" width="80" id="uploadedAvatar">
+                                <?php else : ?>
+                                    <img src="<?= asset('assets/img/avatars/1.png') ?>" alt="user-avatar" class="d-block rounded m-3" width="80" id="uploadedAvatar">
+                                <?php endif; ?>
                             </td>
-                            <td>
-                                <?php if ($user['is_active'] == 1) { ?>
-                                    <span class="badge bg-success">Active</span>
-                                <?php } else { ?>
-                                    <span class="badge bg-danger">In Active</span>
-                                <?php } ?>
-                            </td>
-                            <td>
-                                <?php if ($user['id'] != $userId) { ?>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
 
-                                            <a class="dropdown-item edit-user-btn" data-id="<?= $user['id']; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="dropdown-item delete-user-btn" data-id="<?= $user['id']; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
-
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -165,14 +139,13 @@ if ($permission != 'operator') dd('Access Denied...!');
                             </select>
                         </div>
                     </div>
-
-                    <div class="mb-3 mt-3">
-                        <div id="additional-fields">
-                        </div>
-                    </div>
-
                     <div class="mb-3 mt-3">
                         <div id="alert-container"></div>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <div id="additional-fields">
+
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -274,10 +247,6 @@ if ($permission != 'operator') dd('Access Denied...!');
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="mb-3 mt-3">
-                        <div id="edit-additional-fields">
                         </div>
                     </div>
                     <div class="mb-3 mt-3">
