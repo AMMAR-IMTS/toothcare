@@ -19,7 +19,7 @@ if ($permission != 'operator') dd('Access Denied...!');
             type="button"
             class="btn btn-primary float-end"
             data-bs-toggle="modal"
-            data-bs-target="#modalCenter">
+            data-bs-target="#createUser">
             Add New User
         </button>
     </h4>
@@ -27,6 +27,9 @@ if ($permission != 'operator') dd('Access Denied...!');
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <h5 class="card-header">Users</h5>
+        <div class="m-4">
+            <div id="delete-alert-container"></div>
+        </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
@@ -64,7 +67,7 @@ if ($permission != 'operator') dd('Access Denied...!');
                                         <div class="dropdown-menu">
 
                                             <a class="dropdown-item edit-user-btn" data-id="<?= $user['id']; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="dropdown-item delete-user-btn" data-id="<?= $user['id']; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            <a class="dropdown-item delete-user-btn" data-permission="<?= $user['permission']; ?>" data-id="<?= $user['id']; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
 
                                         </div>
                                     </div>
@@ -86,7 +89,7 @@ if ($permission != 'operator') dd('Access Denied...!');
 <!-- / Content -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="createUser" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form id="create-form" action="<?= url('services/ajax_functions.php') ?>" enctype="multipart/form-data">
@@ -104,12 +107,12 @@ if ($permission != 'operator') dd('Access Denied...!');
                         <div class="col mb-3">
                             <label for="nameWithTitle" class="form-label">User Name</label>
                             <input
-                                type="text"
-                                required
-                                id="nameWithTitle"
-                                name="user_name"
-                                class="form-control"
-                                placeholder="Enter Name" />
+                            required
+                            type="text"
+                            id="nameWithTitle"
+                            name="user_name"
+                            class="form-control"
+                            placeholder="Enter Name" />
                         </div>
                     </div>
                     <div class="row ">

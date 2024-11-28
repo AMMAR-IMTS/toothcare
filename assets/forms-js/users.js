@@ -91,8 +91,9 @@ $(document).ready(function () {
 
     $('.delete-user-btn').on('click', async function () {
         var user_id = $(this).data('id');
+        var permission = $(this).data('permission');
         var is_confirm = confirm('Are you sure,Do you want to delete?');
-        if (is_confirm) await deleteById(user_id);
+        if (is_confirm) await deleteById(user_id, permission);
     })
 
     $('#update-user').on('click', function () {
@@ -142,10 +143,35 @@ $(document).ready(function () {
         }
     });
 
+    $('#edit_permission').change(function () {
+        var permission = $(this).val();
+        if (permission === 'doctor') {
+            $('#edit-additional-fields').html(
+                '<div class="row mt-2">' +
+                '<div class="col-12 mb-3">' +
+                '<label for="name" class="form-label">Doctor Name</label>' +
+                '<input type="text" id="edit_name" name="doctor_name" class="form-control" placeholder="Enter Name" required />' +
+                '</div>' +
+                '<div class="col-12 mb-3">' +
+                '<label for="about" class="form-label">About Doctor</label>' +
+                '<textarea id="edit_about" name="about_doctor" class="form-control" placeholder="Enter About" required></textarea>' +
+                '</div>' +
+                '<div class="col-12 mb-3">' +
+                '<label for="formFile" class="form-label">Doctor Photo</label>' +
+                '<input class="form-control" name="image" id="edit_image" type="file" accept="image/*">' +
+                '</div>' +
+                '</div>'
+            );
+        } else {
+            $('#edit-additional-fields').empty();
+        }
+    });
+
 });
 
 async function getUserById(id) {
     var url = $('#update-form').attr('action');
+    $('#edit-additional-fields').empty();
 
     // Perform AJAX request
     $.ajax({
@@ -179,6 +205,10 @@ async function getUserById(id) {
                 $('#edit-user-modal #is_active option[value="' + is_active + '"]').prop('selected', true);
 
                 if (permission === 'doctor') {
+
+                    const domain = $('meta[name="domain"]').attr('content'); // Fetch domain from <meta> tag
+                    const doctorPhotoPath = domain + '/assets/uploads/';
+
                     $('#edit-additional-fields').html(
                         ' <input type="hidden" id="doctor_id" name="doctor_id" value="' + doctorId + '"></input>' +
                         '<div class="row mt-2">' +
@@ -194,6 +224,17 @@ async function getUserById(id) {
                         '<label for="formFile" class="form-label">Doctor Photo</label>' +
                         '<input class="form-control" name="image" id="image" type="file" accept="image/*">' +
                         '</div>' +
+                        '<div class="col-12 mb-3">' +
+                        '<label for="formFile" class="form-label">Doctor Photo</label>' +
+                        // Display current photo if available, or default image
+                        (doctorPhoto ?
+                            '<img src="' + doctorPhotoPath + doctorPhoto + '" alt="user-avatar" class="d-block rounded m-3" width="80" id="uploadedAvatar">' :
+                            '<img src="assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded m-3" width="80" id="uploadedAvatar">'
+                        ) +
+                        // File input for updating photo
+                        '<input class="form-control mt-2" name="image" id="image" type="file" accept="image/*">' +
+                        '</div>' +
+
                         '</div>'
                     );
                 } else {
@@ -214,7 +255,7 @@ async function getUserById(id) {
 }
 
 
-async function deleteById(id) {
+async function deleteById(id, permission) {
     var url = $('#update-form').attr('action');
 
     // Perform AJAX request
@@ -223,7 +264,8 @@ async function deleteById(id) {
         type: 'GET',
         data: {
             user_id: id,
-            action: 'delete_user'
+            action: 'delete_user',
+            permission: permission
         }, // Form data
         dataType: 'json',
         success: function (response) {
@@ -231,6 +273,8 @@ async function deleteById(id) {
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
+            } else {
+                showAlert(response.message, response.success ? 'primary' : 'danger', 'delete-alert-container');
             }
         },
         error: function (error) {
@@ -243,70 +287,3 @@ async function deleteById(id) {
         }
     });
 }
-
-
-
-
-$(document).ready(function () {
-
-    $('.delete-user').on('click', async function () {
-        var user_id = $(this).data('id');
-        var is_confirm = confirm('Are you sure,Do you want to delete?');
-        if (is_confirm) await deleteById(user_id);
-    })
-
-
-    $('#permission').change(function () {
-        var permission = $(this).val();
-        if (permission === 'doctor') {
-            $('#additional-fields').html(
-                '<div class="row mt-2">' +
-                '<div class="col-12 mb-3">' +
-                '<label for="name" class="form-label">Doctor Name</label>' +
-                '<input type="text" id="name" name="doctor_name" class="form-control" placeholder="Enter Name" required />' +
-                '</div>' +
-                '<div class="col-12 mb-3">' +
-                '<label for="about" class="form-label">About Doctor</label>' +
-                '<textarea id="about" name="about_doctor" class="form-control" placeholder="Enter About" required></textarea>' +
-                '</div>' +
-                '<div class="col-12 mb-3">' +
-                '<label for="formFile" class="form-label">Doctor Photo</label>' +
-                '<input class="form-control" name="image" id="image" type="file" accept="image/*">' +
-                '</div>' +
-                '</div>'
-            );
-        } else {
-            $('#additional-fields').empty();
-        }
-    });
-
-    // Trigger change event on page load if doctor permission is selected by default
-    if ($('#permission, #edit_permission').val() === 'doctor') {
-        $('#permission, #edit_permission').trigger('change');
-    }
-
-    $('#edit_permission').change(function () {
-        var permission = $(this).val();
-        if (permission === 'doctor') {
-            $('#edit-additional-fields').html(
-                '<div class="row mt-2">' +
-                '<div class="col-12 mb-3">' +
-                '<label for="name" class="form-label">Doctor Name</label>' +
-                '<input type="text" id="edit_name" name="doctor_name" class="form-control" placeholder="Enter Name" required />' +
-                '</div>' +
-                '<div class="col-12 mb-3">' +
-                '<label for="about" class="form-label">About Doctor</label>' +
-                '<textarea id="edit_about" name="about_doctor" class="form-control" placeholder="Enter About" required></textarea>' +
-                '</div>' +
-                '<div class="col-12 mb-3">' +
-                '<label for="formFile" class="form-label">Doctor Photo</label>' +
-                '<input class="form-control" name="image" id="edit_image" type="file" accept="image/*">' +
-                '</div>' +
-                '</div>'
-            );
-        } else {
-            $('#edit-additional-fields').empty();
-        }
-    });
-});
-

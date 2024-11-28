@@ -33,6 +33,7 @@ $currentFilename = basename($currentUrl);  // e.g., "dashboard.php"
     <title>Tooth Care App ImTS</title>
 
     <meta name="description" content="" />
+    <meta name="domain" content="<?= current_domain() ?>" />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= asset('assets/img/favicon/favicon.ico') ?>" />
 
@@ -98,6 +99,15 @@ $currentFilename = basename($currentUrl);  // e.g., "dashboard.php"
                     </li>
 
 
+                    <?php if ($permission == 'operator') : ?>
+                        <li class="menu-item <?= $currentFilename === "available_channelings.php" ? 'active' : '' ?>">
+                            <a href="<?= url('views/admin/available_channelings.php') ?>" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-run"></i>
+                                <div data-i18n="Analytics">Appointment Booking</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
                     <li class="menu-item <?= $currentFilename === "appointments.php" ? 'active' : '' ?> ">
                         <a href="<?= url('views/admin/appointments.php') ?>" class="menu-link">
                             <i class="menu-icon tf-icons  bx bx-collection"></i>
@@ -123,6 +133,13 @@ $currentFilename = basename($currentUrl);  // e.g., "dashboard.php"
                             <a href="<?= url('views/admin/doctor_availabilities.php') ?>" class="menu-link">
                                 <i class="menu-icon tf-icons  bx bx-dna"></i>
                                 <div data-i18n="Analytics">Doctor Availabilities</div>
+                            </a>
+                        </li>
+
+                        <li class="menu-item <?= $currentFilename === "payments.php" ? 'active' : '' ?> ">
+                            <a href="<?= url('views/admin/payments.php') ?>" class="menu-link">
+                                <i class="menu-icon tf-icons  bx bx-wallet"></i>
+                                <div data-i18n="Analytics">Payments</div>
                             </a>
                         </li>
 

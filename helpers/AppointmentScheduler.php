@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . './../models/DoctorAvailability.php';
-require_once __DIR__ . './../models/Appointment.php';
-require_once __DIR__ . './../models/Doctor.php';
-require_once __DIR__ . './../models/Treatment.php';
+require_once __DIR__ . '/../models/DoctorAvailability.php';
+require_once __DIR__ . '/../models/Appointment.php';
+require_once __DIR__ . '/../models/Doctor.php';
+require_once __DIR__ . '/../models/Treatment.php';
 
 /**
  * Class AppointmentScheduler
@@ -110,7 +110,7 @@ class AppointmentScheduler
                         echo '<div class="row my-5 border rounded border-secondary"><h3 class="mt-4 text-capitalize">' . $currentDateFullString . '</h3>';
 
                         // Loop through time slots for the current day.
-                        while ($currentSlot <= $sessionTo) {
+                        while ($currentSlot < $sessionTo) {
                             $time_slot_from = $currentSlot->format('h:i A');
                             $time_slot_to = $currentSlot->add($this->slotDuration)->format('h:i A');
 

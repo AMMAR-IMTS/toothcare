@@ -12,98 +12,94 @@ if ($permission == 'operator') {
 }
 
 ?>
-<div class="container">
 
-    <h1 class="mx-3 my-5">
-        Appointments
-    </h1>
-    <section class="content">
-        <div class="container-fluid">
-            <div class="card mb-5">
-                <div class="row m-3">
-                    <div class="col-6">
-                        <div class="d-flex align-items-center m-3">
-                            <i class="bx bx-search fs-4 lh-0"></i>
-                            <input type="text" id="searchInput" class="form-control border-0 shadow-none" placeholder="Search by Appointment No " aria-label="Search..." />
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-group my-3">
-                            <input type="date" id="datePicker" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group my-3">
-                            <button class="btn btn-primary d-inline" id="clear">Clear</button>
-                        </div>
-                    </div>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Appointments </h4>
+
+    <div class="card mb-5">
+        <div class="row m-3">
+            <div class="col-6">
+                <div class="d-flex align-items-center m-3">
+                    <i class="bx bx-search fs-4 lh-0"></i>
+                    <input type="text" id="searchInput" class="form-control border-0 shadow-none" placeholder="Search by Appointment No " aria-label="Search..." />
                 </div>
-                <hr>
-                <!-- /.card-header -->
-                <div class="card-body p-0 table-responsive">
-                    <table class="table table-striped mb-4">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th class="text-nowrap">Date</th>
-                                <th class="text-nowrap">Appointment No</th>
-                                <th class="text-nowrap">Treatment</th>
-                                <?php if ($permission == 'operator') : ?>
-                                    <th class="text-nowrap">Doctor</th>
-                                <?php endif; ?>
-                                <th class="text-nowrap">Patient Name</th>
-                                <th class="text-nowrap">Time Slot From</th>
-                                <th class="text-nowrap">Time Slot To</th>
-                                <th class="text-nowrap">Address</th>
-                                <th class="text-nowrap">Telephone</th>
-                                <th class="text-nowrap">Email</th>
-                                <th class="text-nowrap">NIC</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if (isset($appointments)) {
-                                foreach ($appointments as $c) {
-                                    $time_slot_from = new DateTime($c['time_slot_from']);
-                                    $timeSlotFrom = $time_slot_from->format('h:i A');
-
-                                    $time_slot_to = new DateTime($c['time_slot_to']);
-                                    $timeSlotTo = $time_slot_to->format('h:i A');
-                            ?>
-                                    <tr>
-                                        <td>
-                                            <div>
-                                                <a class="btn btn-sm btn-info m-2" href="<?= url('views/admin/appointment_edit.php?id=' . $c['id'] ?? '') ?>"><i class="bx bx-edit-alt"></i></a>
-                                                <!-- <a class="btn btn-sm btn-danger m-2" href="#" onclick="confirmDelete(<?= $c['id']; ?>)"><i class="bx bx-trash"></i></a> -->
-                                            </div>
-                                        </td>
-                                        <td class="text-nowrap" class="appointment_date"><?= $c['appointment_date'] ?? ""; ?></td>
-                                        <td class="text-nowrap">#<?= $c['id'] ?? ""; ?> - <?= $c['appointment_no'] ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $c['treatment_name'] ?? ""; ?> </td>
-                                        <?php if ($permission == 'operator') : ?>
-                                            <td class="text-nowrap"> <?= $c['doctor_name'] ?? ""; ?> </td>
-                                        <?php endif; ?>
-                                        <td class="text-nowrap"> <?= $c['patient_name'] ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $timeSlotFrom ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $timeSlotTo ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $c['address'] ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $c['telephone'] ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $c['email'] ?? ""; ?> </td>
-                                        <td class="text-nowrap"> <?= $c['nic'] ?? ""; ?> </td>
-
-                                    </tr>
-                            <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+            </div>
+            <div class="col-4">
+                <div class="form-group my-3">
+                    <input type="date" id="datePicker" class="form-control" />
                 </div>
-                <!-- /.card-body -->
+            </div>
+            <div class="col-2">
+                <div class="form-group my-3">
+                    <button class="btn btn-primary d-inline" id="clear">Clear</button>
+                </div>
             </div>
         </div>
-    </section>
+        <hr>
+        <!-- /.card-header -->
+        <div class="card-body p-0 table-responsive">
+            <table class="table table-striped mb-4">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-nowrap">Date</th>
+                        <th class="text-nowrap">Appointment No</th>
+                        <th class="text-nowrap">Treatment</th>
+                        <?php if ($permission == 'operator') : ?>
+                            <th class="text-nowrap">Doctor</th>
+                        <?php endif; ?>
+                        <th class="text-nowrap">Patient Name</th>
+                        <th class="text-nowrap">Time Slot From</th>
+                        <th class="text-nowrap">Time Slot To</th>
+                        <th class="text-nowrap">Address</th>
+                        <th class="text-nowrap">Telephone</th>
+                        <th class="text-nowrap">Email</th>
+                        <th class="text-nowrap">NIC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (isset($appointments)) {
+                        foreach ($appointments as $c) {
+                            $time_slot_from = new DateTime($c['time_slot_from']);
+                            $timeSlotFrom = $time_slot_from->format('h:i A');
+
+                            $time_slot_to = new DateTime($c['time_slot_to']);
+                            $timeSlotTo = $time_slot_to->format('h:i A');
+                    ?>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <a class="btn btn-sm btn-info m-2" href="<?= url('views/admin/appointment_edit.php?id=' . $c['id'] ?? '') ?>"><i class="bx bx-edit-alt"></i></a>
+                                        <!-- <a class="btn btn-sm btn-danger m-2" href="#" onclick="confirmDelete(<?= $c['id']; ?>)"><i class="bx bx-trash"></i></a> -->
+                                    </div>
+                                </td>
+                                <td class="text-nowrap appointment_date"><?= $c['appointment_date'] ?? ""; ?></td>
+                                <td class="text-nowrap">#<?= $c['id'] ?? ""; ?> - <?= $c['appointment_no'] ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $c['treatment_name'] ?? ""; ?> </td>
+                                <?php if ($permission == 'operator') : ?>
+                                    <td class="text-nowrap"> <?= $c['doctor_name'] ?? ""; ?> </td>
+                                <?php endif; ?>
+                                <td class="text-nowrap"> <?= $c['patient_name'] ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $timeSlotFrom ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $timeSlotTo ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $c['address'] ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $c['telephone'] ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $c['email'] ?? ""; ?> </td>
+                                <td class="text-nowrap"> <?= $c['nic'] ?? ""; ?> </td>
+
+                            </tr>
+                    <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
 </div>
+
 <?php require_once('../layouts/footer.php'); ?>
 <script>
     $(document).ready(function() {
@@ -130,9 +126,12 @@ if ($permission == 'operator') {
 
         // Function to update table rows based on the selected date
         function filterAppointmentsByDate(selectedDate) {
+            console.log("selectedDate Date:", selectedDate); // Log each appointment date for debugging
+
+
             // Loop through each row in the table body
             $('tbody tr').each(function() {
-                var appointmentDate = $(this).find('.appointment_date').text(); // Assuming date is in the 12th column
+                var appointmentDate = $(this).find('.appointment_date').text().trim();
                 $(this).toggle(appointmentDate === selectedDate);
             });
         }
@@ -144,7 +143,9 @@ if ($permission == 'operator') {
 
         // Event handler for date picker change
         $('#datePicker').on('change', function() {
+
             var selectedDate = $(this).val();
+            alert(selectedDate);
             filterAppointmentsByDate(selectedDate);
         });
 

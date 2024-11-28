@@ -93,4 +93,40 @@ class Doctor extends BaseModel
 
         return $updated ? true : false;
     }
+
+    function deleteDoctorByUserId($userId)
+    {
+        // Find the doctor associated with the user ID
+        $doctor = $this->getDoctorByUserId($userId);
+        if (!$doctor) {
+            return true; // No doctor found for the user, proceed with user deletion
+        }
+
+        if (empty($doctor['id']))  return false;
+        $doctorId = $doctor['id'];
+
+        // Check if doctor has appointments
+        if ($this->hasAppointments($doctorId)) {
+            // If doctor has appointments, return false to prevent deletion
+            return false;
+        }
+
+        // Delete doctor record
+        return $this->deleteRec($doctorId);
+    }
+
+    public function hasAppointments($doctorId)
+    {
+        // Check if the doctor has any appointments
+        $param = array(':doctor_id' => $doctorId);
+        $appointments = $this->pm->run("SELECT COUNT(*) AS appointment_count FROM appointments WHERE doctor_id = :doctor_id", $param);
+
+        return $appointments[0]['appointment_count'] > 0;
+    }
+
+    public function getDoctorByUserId($id)
+    {
+        $param = array(':id' => $id);
+        return $this->pm->run("SELECT * FROM " . $this->getTableName() . " WHERE user_id = :id", $param, true);
+    }
 }
